@@ -7,43 +7,40 @@ import androidx.lifecycle.MutableLiveData
 
 
 class QuestionsViewModel: ViewModel()  {
-    // The current word
-    var word = ""
-
     // The list of words - the front of the list is the next word to guess
-    private var defaultQuestions = MutableLiveData<String>()
+    private var addedQuestions = ArrayList<String>()
     private var questionsList = ArrayList<String>()
-
-
 
     fun defaultQuestions(){
         questionsList.add("¿Tiene algún comentario o sugerencia?")
         questionsList.add("¿Qué le pareció nuestro servicio?")
-
-
+        /*
+        for (question in addedQuestions){
+            questionsList.add(question)
+        }
+        */
         Log.i("QuestionsViewModel", "List created!")
     }
 
     //Moves to the next question in the list
-    fun nextQuestion() {
+    fun nextQuestion(): String {
+        var question = ""
         //Select and remove a word from the list
         if (questionsList.isNotEmpty()) {
-            word = questionsList.removeAt(0)
+            question = questionsList.removeAt(0)
         }
+        return question
     }
-
     //Add question
     fun addQuestion(newQuestion: String) {
-        questionsList.add(newQuestion)
+        addedQuestions.add(newQuestion)
 
         Log.i("QuestionsViewModel", "Question created!")
     }
+    //Returns question list
+    fun getQuestionList(): ArrayList<String>{
 
-    fun getQuestionList(): LiveData<String>{
-        defaultQuestions()
-        return defaultQuestions
+        return questionsList
     }
-
-
 
 }

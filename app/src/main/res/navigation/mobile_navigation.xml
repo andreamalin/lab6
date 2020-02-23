@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/answersFragment"
         android:name="com.example.labo5.views.AnswersFragment"
-        android:label="fragment_answers"
+        android:label="Questions"
         tools:layout="@layout/fragment_answers" >
         <action
             android:id="@+id/action_answersFragment_to_resultsFragment"
@@ -32,12 +32,12 @@
     <fragment
         android:id="@+id/addQuestionFragment"
         android:name="com.example.labo5.views.AddQuestionsFragment"
-        android:label="fragment_questions"
+        android:label="Add Questions"
         tools:layout="@layout/fragment_add_questions" />
     <fragment
         android:id="@+id/resultsFragment"
         android:name="com.example.labo5.views.ResultsFragment"
-        android:label="ResultsFragment"
+        android:label="Results"
         tools:layout="@layout/fragment_results" >
         <action
             android:id="@+id/action_resultsFragment_to_nav_home"

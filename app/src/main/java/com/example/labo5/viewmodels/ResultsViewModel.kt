@@ -1,24 +1,41 @@
 package com.example.labo5.viewmodels;
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ResultsViewModel: ViewModel(){
-    private var rating = 0.0
-    private var quantity = 0
-    private var answers = ""
+    var rating = MutableLiveData<Float>()
+    var quantity = MutableLiveData<Int>()
+    var answers = MutableLiveData<ArrayList<String>>()
+    var answersList = ArrayList<String>()
 
-    fun setRating(actualRating: Float){
-        quantity ++ //New survey
-        rating += actualRating //New rating value
-        rating /= quantity //Average rating
-
-        Log.i("RatingViewModel", "Rating " + actualRating)
+    init {
+        rating.value = 0.0F
+        quantity.value = 0
+        answersList.add("Default")
     }
-    fun getSurveyRating(): Double{
-        Log.i("RatingViewModel", "Rating " + rating)
+    //Setters
+    fun setRating(actualRating: Float){
+        val actualRate = getSurveyRating().value!! + actualRating
+        val actualQuantity = getSurveyQuantity().value!! + 1
+
+
+        rating.value = actualRate
+        quantity.value = actualQuantity
+        answers.value = answersList
+        Log.i("RatingViewModel", "Rating" + actualRate)
+    }
+    fun setAnswers(answer: String){
+        answersList.add(answer)
+    }
+    //Getters
+    fun getSurveyRating(): MutableLiveData<Float>{
         return rating
     }
-    fun getSurveyQuantity(): Int{
+    fun getSurveyQuantity(): MutableLiveData<Int>{
         return quantity
+    }
+    fun getAllResults(): MutableLiveData<ArrayList<String>>{
+        return answers
     }
 }

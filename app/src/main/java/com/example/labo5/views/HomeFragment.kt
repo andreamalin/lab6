@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
-
+    //Show questions
     private fun startSurvey(){
         view!!.findNavController().navigate(R.id.action_nav_home_to_answersFragment)
     }
