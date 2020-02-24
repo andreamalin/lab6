@@ -30,17 +30,12 @@ class ResultsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_results, container, false)
         //ViewModel
-        viewModelResults = activity.let {
-            ViewModelProvider(this).get(ResultsViewModel::class.java)
-        }
+        viewModelResults = ViewModelProvider(activity!!).get(ResultsViewModel::class.java)
 
-        viewModelResults.rating.observe(this, Observer<Float> { item ->
-            binding.resultsAverage = item
-            Log.i("RatingResultsFragment", "Rating item" + item)
-        })
 
-        Log.i("RatingResultsFragment", "Rating view model" + viewModelResults.getSurveyRating().value)
-        Log.i("RatingResultsFragment", "Rating binding" + binding.resultsAverage)
+        binding.resultsAverage = viewModelResults.getSurveyRating().value
+        binding.surveysQuantity = viewModelResults.getSurveyQuantity()
+
 
         //New survey
         binding.buttonNewSurvey.setOnClickListener{
@@ -50,12 +45,8 @@ class ResultsFragment : Fragment() {
         binding.buttonSeeResults.setOnClickListener{
             val results = viewModelResults.getAllResults().value
 
-            Toast.makeText(activity, ":(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "$results", Toast.LENGTH_SHORT).show()
         }
-
-
-        //binding.surveysQuantity = viewModelResults.getSurveyQuantity().value
-
 
 
         return binding.root

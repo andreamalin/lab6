@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.labo5.R
 import com.example.labo5.databinding.FragmentHomeBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -18,6 +19,10 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_home, container, false)
+
+        binding.fab.setOnClickListener {
+            view!!.findNavController().navigate(R.id.addQuestionFragment)
+        }
         //Keyboard
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 

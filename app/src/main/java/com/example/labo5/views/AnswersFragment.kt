@@ -31,21 +31,21 @@ class AnswersFragment : Fragment() {
         binding.ratingBar.setVisibility(View.GONE)
 
         // Get the viewModel
-        viewModel = ViewModelProvider(this).get(QuestionsViewModel::class.java)
-        viewModelResults = activity.let {
-            ViewModelProvider(this).get(ResultsViewModel::class.java)
-        }
+        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
+        viewModelResults = ViewModelProvider(activity!!).get(ResultsViewModel::class.java)
+
         viewModel.defaultQuestions()
 
         //Keyboard
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-
-        val questionsList = viewModel.getQuestionList() //Get questions
-        updateQuestion()
+        binding.question = viewModel.getFirstQuestion()
+        viewModel.nextQuestion()
+        Log.i("RatingAnswersFragment", "SIZE ANTES" +viewModel.getQuestionList().size)
 
         //Next questions
         binding.buttonNextQuestion.setOnClickListener {
+            viewModel.nextQuestion()
 
             if (showResults) {
                 viewModelResults.setRating(binding.ratingBar.rating)
@@ -53,24 +53,29 @@ class AnswersFragment : Fragment() {
                 Log.i("RatingAnswersFragment", "Rating" + binding.ratingBar.rating)
                 view!!.findNavController().navigate(R.id.action_answersFragment_to_resultsFragment)
 
-            } else if (questionsList.size == 1) { //Shows rating
+                viewModelResults.setAnswers(binding.ratingBar.rating.toString())
+
+            } else if (viewModel.getQuestionList().size == 0) { //Shows rating
+                updateQuestion()
                 showResults = true
                 binding.editTextAnswer.setVisibility(View.GONE)
                 binding.ratingBar.setVisibility(View.VISIBLE)
             } else {
                 updateQuestion()
             }
+            Log.i("RatingAnswersFragment", "SIZE DESPUES" +viewModel.getQuestionList().size)
+
             getAnswer()
         }
         return binding.root
     }
     //Update questions
     private fun updateQuestion() {
-        binding.question = viewModel.nextQuestion()
+        binding.question = viewModel.question
     }
     //Get answers
     private fun getAnswer(){
-        viewModelResults = ViewModelProvider(this).get(ResultsViewModel::class.java)
+        viewModelResults = ViewModelProvider(activity!!).get(ResultsViewModel::class.java)
         //Get answer from edit text
         val lastAnswer = editTextAnswer.getText().toString()
 

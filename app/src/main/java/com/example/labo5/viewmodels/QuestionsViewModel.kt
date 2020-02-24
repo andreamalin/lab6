@@ -9,27 +9,28 @@ import androidx.lifecycle.MutableLiveData
 class QuestionsViewModel: ViewModel()  {
     // The list of words - the front of the list is the next word to guess
     private var addedQuestions = ArrayList<String>()
-    private var questionsList = ArrayList<String>()
+    private lateinit var questionsList: ArrayList<String>
+    var question = ""
 
     fun defaultQuestions(){
-        questionsList.add("¿Tiene algún comentario o sugerencia?")
-        questionsList.add("¿Qué le pareció nuestro servicio?")
-        /*
+        questionsList = ArrayList()
+
         for (question in addedQuestions){
             questionsList.add(question)
         }
-        */
+
+        questionsList.add("¿Tiene algún comentario o sugerencia?")
+        questionsList.add("¿Qué le pareció nuestro servicio?")
+
         Log.i("QuestionsViewModel", "List created!")
     }
 
     //Moves to the next question in the list
-    fun nextQuestion(): String {
-        var question = ""
-        //Select and remove a word from the list
+    fun nextQuestion() {
+        //Select and remove a question from the list
         if (questionsList.isNotEmpty()) {
             question = questionsList.removeAt(0)
         }
-        return question
     }
     //Add question
     fun addQuestion(newQuestion: String) {
@@ -41,6 +42,10 @@ class QuestionsViewModel: ViewModel()  {
     fun getQuestionList(): ArrayList<String>{
 
         return questionsList
+    }
+    //Returns first question
+    fun getFirstQuestion(): String{
+        return questionsList[0]
     }
 
 }

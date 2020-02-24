@@ -5,23 +5,21 @@ import androidx.lifecycle.ViewModel
 
 class ResultsViewModel: ViewModel(){
     var rating = MutableLiveData<Float>()
-    var quantity = MutableLiveData<Int>()
+    var quantity = 0
     var answers = MutableLiveData<ArrayList<String>>()
     var answersList = ArrayList<String>()
 
     init {
         rating.value = 0.0F
-        quantity.value = 0
-        answersList.add("Default")
     }
     //Setters
     fun setRating(actualRating: Float){
-        val actualRate = getSurveyRating().value!! + actualRating
-        val actualQuantity = getSurveyQuantity().value!! + 1
+        val actualQuantity = quantity + 1
+        val actualRate = (getSurveyRating().value!! + actualRating)/actualQuantity
 
 
         rating.value = actualRate
-        quantity.value = actualQuantity
+        quantity = actualQuantity
         answers.value = answersList
         Log.i("RatingViewModel", "Rating" + actualRate)
     }
@@ -32,7 +30,7 @@ class ResultsViewModel: ViewModel(){
     fun getSurveyRating(): MutableLiveData<Float>{
         return rating
     }
-    fun getSurveyQuantity(): MutableLiveData<Int>{
+    fun getSurveyQuantity(): Int{
         return quantity
     }
     fun getAllResults(): MutableLiveData<ArrayList<String>>{

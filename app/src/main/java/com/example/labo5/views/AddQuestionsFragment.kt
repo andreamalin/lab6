@@ -33,7 +33,7 @@ class AddQuestionsFragment : Fragment() {
         setHasOptionsMenu(true)
 
         // Get the viewModel
-        viewModel = ViewModelProvider(this).get(QuestionsViewModel::class.java)
+        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
 
         return binding.root
     }
@@ -46,7 +46,7 @@ class AddQuestionsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
         // Get the viewModel
-        viewModel = ViewModelProvider(this).get(QuestionsViewModel::class.java)
+        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
         //Get question from edit text
         val lastQuestion = EditTextNewQuestion.getText().toString()
         //Set new question
