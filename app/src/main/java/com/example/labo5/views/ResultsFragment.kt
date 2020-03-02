@@ -13,9 +13,7 @@ import com.example.labo5.viewmodels.ResultsViewModel
 import com.example.labo5.databinding.FragmentResultsBinding
 import com.example.labo5.viewmodels.QuestionsViewModel
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class ResultsFragment : Fragment() {
     private lateinit var binding: FragmentResultsBinding
     private lateinit var viewModelResults: ResultsViewModel
@@ -78,6 +76,9 @@ class ResultsFragment : Fragment() {
         } else if (item.itemId == R.id.deleteQuestions) { //Delete questions
             viewModelQuestions.addedQuestions = ArrayList()
         } else if (item.itemId == R.id.deleteAnswers) { //Delete answers
+            viewModelResults.rating.value = 0.0F
+            //Actualizing views
+            binding.resultsAverage = 0.0F
             viewModelResults.answersList = ArrayList()
             db.deleteSurvey()
             db.deleteAnswers()
