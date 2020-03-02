@@ -68,6 +68,7 @@ class AnswersFragment : Fragment() {
                 view!!.findNavController().navigate(R.id.action_answersFragment_to_resultsFragment)
 
                 viewModelResults.setAnswers(binding.ratingBar.rating.toString())
+                db.insert() //Inserts new answers
 
             } else if (viewModelQuestion.getQuestionList().size == 0) { //Shows rating
                 updateQuestion()

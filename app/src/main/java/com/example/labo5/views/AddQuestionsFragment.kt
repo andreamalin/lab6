@@ -65,10 +65,8 @@ class AddQuestionsFragment : Fragment() {
         //Set new question
         if (item.itemId == R.id.saveQuestion){
             viewModelQuestion.addQuestion(lastQuestion)
-            //Insert question to dao
-            val question = Question(lastQuestion, typeQuestion,false)
-            val db = SurveyDataBase(context)
-            db.insert(question)
+            //Insert question
+            Question(lastQuestion, typeQuestion,false)
 
             Toast.makeText(activity, "$lastQuestion was added", Toast.LENGTH_SHORT).show()
             EditTextNewQuestion.getText().clear()
