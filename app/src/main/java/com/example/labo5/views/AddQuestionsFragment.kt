@@ -13,8 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.labo5.viewmodels.QuestionsViewModel
 import com.example.labo5.R
-import com.example.labo5.databases.Question
-import com.example.labo5.databases.SurveyDataBase
+import com.example.labo5.dataBase.Question
 import com.example.labo5.databinding.FragmentAddQuestionsBinding
 import kotlinx.android.synthetic.main.fragment_add_questions.*
 

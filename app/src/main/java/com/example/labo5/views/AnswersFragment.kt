@@ -13,9 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.labo5.viewmodels.QuestionsViewModel
 import com.example.labo5.R
-import com.example.labo5.databases.Answer
-import com.example.labo5.databases.Question
-import com.example.labo5.databases.SurveyDataBase
+import com.example.labo5.dataBase.Answer
+import com.example.labo5.dataBase.SurveyDataBase
 import com.example.labo5.viewmodels.ResultsViewModel
 import com.example.labo5.databinding.FragmentAnswersBinding
 import kotlinx.android.synthetic.main.fragment_answers.*
@@ -65,11 +64,13 @@ class AnswersFragment : Fragment() {
                 Log.i("RatingAnswersFragment", "Rating" + binding.ratingBar.rating)
                 //Insert answer to db
                 db.insertAnswerInt(answer)
+                db.insertSurvey(viewModelResults.getSurveyQuantity())
+                db.insert() //Inserts new answers
 
                 view!!.findNavController().navigate(R.id.action_answersFragment_to_resultsFragment)
 
                 viewModelResults.setAnswers(binding.ratingBar.rating.toString())
-                db.insert() //Inserts new answers
+
 
             } else if (viewModelQuestion.getQuestionList().size == 0) { //Shows rating
                 updateQuestion()
@@ -85,8 +86,9 @@ class AnswersFragment : Fragment() {
             answer = Answer(actualSurvey, actualQuestion, lastAnswer) //Constructing answer
             //Insert answer to db
             db.insertAnswerString(answer)
-
         }
+
+
         return binding.root
     }
     //Update questions

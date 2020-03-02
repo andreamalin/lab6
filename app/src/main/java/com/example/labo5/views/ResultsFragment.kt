@@ -1,19 +1,14 @@
 package com.example.labo5.views
 
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.example.labo5.R
-import com.example.labo5.databases.SurveyDataBase
+import com.example.labo5.dataBase.SurveyDataBase
 import com.example.labo5.viewmodels.ResultsViewModel
 import com.example.labo5.databinding.FragmentResultsBinding
 import com.example.labo5.viewmodels.QuestionsViewModel
@@ -56,9 +51,6 @@ class ResultsFragment : Fragment() {
 
     //Generates new survey
     private fun newSurvey(){
-        //Db
-        val db = SurveyDataBase(context)
-        db.insertQuestion(viewModelResults.quantity)
         view!!.findNavController().navigate(R.id.action_resultsFragment_to_nav_home)
     }
 
