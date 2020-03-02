@@ -13,14 +13,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.labo5.viewmodels.QuestionsViewModel
 import com.example.labo5.R
+import com.example.labo5.databases.Answer
+import com.example.labo5.databases.Question
+import com.example.labo5.databases.SurveyDataBase
 import com.example.labo5.viewmodels.ResultsViewModel
 import com.example.labo5.databinding.FragmentAnswersBinding
 import kotlinx.android.synthetic.main.fragment_answers.*
 
 
+
 class AnswersFragment : Fragment() {
     private lateinit var binding: FragmentAnswersBinding
-    private lateinit var viewModel: QuestionsViewModel
+    private lateinit var viewModelQuestion: QuestionsViewModel
     private lateinit var viewModelResults: ResultsViewModel
     private var showResults = false
 
@@ -31,31 +35,41 @@ class AnswersFragment : Fragment() {
         binding.ratingBar.setVisibility(View.GONE)
 
         // Get the viewModel
-        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
+        viewModelQuestion = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
         viewModelResults = ViewModelProvider(activity!!).get(ResultsViewModel::class.java)
 
-        viewModel.defaultQuestions()
+        viewModelQuestion.defaultQuestions()
+
+        //Db
+        val db = SurveyDataBase(context)
 
         //Keyboard
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
-        binding.question = viewModel.getFirstQuestion()
-        viewModel.nextQuestion()
-        Log.i("RatingAnswersFragment", "SIZE ANTES" +viewModel.getQuestionList().size)
+        binding.question = viewModelQuestion.getFirstQuestion()
+        viewModelQuestion.nextQuestion()
+        Log.i("RatingAnswersFragment", "SIZE ANTES" +viewModelQuestion.getQuestionList().size)
 
         //Next questions
         binding.buttonNextQuestion.setOnClickListener {
-            viewModel.nextQuestion()
+            viewModelQuestion.nextQuestion()
+            val actualSurvey = viewModelResults.quantity
+            val actualQuestion = viewModelQuestion.actual_question
+            var answer: Answer
+
 
             if (showResults) {
                 viewModelResults.setRating(binding.ratingBar.rating)
-
+                answer = Answer(actualSurvey, actualQuestion, binding.ratingBar.rating) //Constructing answer
                 Log.i("RatingAnswersFragment", "Rating" + binding.ratingBar.rating)
+                //Insert answer to db
+                db.insertAnswerInt(answer)
+
                 view!!.findNavController().navigate(R.id.action_answersFragment_to_resultsFragment)
 
                 viewModelResults.setAnswers(binding.ratingBar.rating.toString())
 
-            } else if (viewModel.getQuestionList().size == 0) { //Shows rating
+            } else if (viewModelQuestion.getQuestionList().size == 0) { //Shows rating
                 updateQuestion()
                 showResults = true
                 binding.editTextAnswer.setVisibility(View.GONE)
@@ -63,18 +77,21 @@ class AnswersFragment : Fragment() {
             } else {
                 updateQuestion()
             }
-            Log.i("RatingAnswersFragment", "SIZE DESPUES" +viewModel.getQuestionList().size)
+            Log.i("RatingAnswersFragment", "SIZE DESPUES" +viewModelQuestion.getQuestionList().size)
 
-            getAnswer()
+            val lastAnswer = getAnswer()
+            answer = Answer(actualSurvey, actualQuestion, lastAnswer) //Constructing answer
+            //Insert answer to db
+            db.insertAnswerString(answer)
         }
         return binding.root
     }
     //Update questions
     private fun updateQuestion() {
-        binding.question = viewModel.question
+        binding.question = viewModelQuestion.question
     }
     //Get answers
-    private fun getAnswer(){
+    private fun getAnswer():String{
         viewModelResults = ViewModelProvider(activity!!).get(ResultsViewModel::class.java)
         //Get answer from edit text
         val lastAnswer = editTextAnswer.getText().toString()
@@ -82,6 +99,7 @@ class AnswersFragment : Fragment() {
         viewModelResults.setAnswers(lastAnswer)
 
         editTextAnswer.getText().clear()
+        return lastAnswer
     }
 
 

@@ -3,6 +3,8 @@ package com.example.labo5.views
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
@@ -11,8 +13,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.labo5.viewmodels.QuestionsViewModel
 import com.example.labo5.R
+import com.example.labo5.databases.Question
+import com.example.labo5.databases.SurveyDataBase
 import com.example.labo5.databinding.FragmentAddQuestionsBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_add_questions.*
 
 /**
@@ -20,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_add_questions.*
  */
 class AddQuestionsFragment : Fragment() {
     private lateinit var binding: FragmentAddQuestionsBinding
-    private lateinit var viewModel: QuestionsViewModel
+    private lateinit var viewModelQuestion: QuestionsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -29,11 +32,21 @@ class AddQuestionsFragment : Fragment() {
             R.layout.fragment_add_questions, container, false)
         //Keyboard
         getActivity()?.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+        //Spinner values
+        val spinner: Spinner = binding.spinnerQuestionType
+        val myAdapter = ArrayAdapter<String>(context!!, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.types))
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = myAdapter
+
+        //DAO
+        viewModelQuestion = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
+
+
+
         //Menu
         setHasOptionsMenu(true)
 
-        // Get the viewModel
-        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
 
         return binding.root
     }
@@ -45,13 +58,17 @@ class AddQuestionsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         super.onOptionsItemSelected(item)
-        // Get the viewModel
-        viewModel = ViewModelProvider(activity!!).get(QuestionsViewModel::class.java)
         //Get question from edit text
         val lastQuestion = EditTextNewQuestion.getText().toString()
+        //Get type of question on spinner
+        val typeQuestion = spinnerQuestionType.getSelectedItem().toString()
         //Set new question
         if (item.itemId == R.id.saveQuestion){
-            viewModel.addQuestion(lastQuestion)
+            viewModelQuestion.addQuestion(lastQuestion)
+            //Insert question to dao
+            val question = Question(lastQuestion, typeQuestion,false)
+            val db = SurveyDataBase(context)
+            db.insert(question)
 
             Toast.makeText(activity, "$lastQuestion was added", Toast.LENGTH_SHORT).show()
             EditTextNewQuestion.getText().clear()
@@ -60,4 +77,5 @@ class AddQuestionsFragment : Fragment() {
 
         return NavigationUI.onNavDestinationSelected(item, view!!.findNavController())
     }
+
 }

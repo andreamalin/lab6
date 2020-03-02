@@ -42,6 +42,14 @@
         <action
             android:id="@+id/action_resultsFragment_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_resultsFragment_to_seeResultsFragment"
+            app:destination="@id/seeResultsFragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/seeResultsFragment"
+        android:name="com.example.labo5.views.SeeResultsFragment"
+        android:label="SeeResultsFragment"
+        tools:layout="@layout/fragment_see_results" >
+    </fragment>
 </navigation>

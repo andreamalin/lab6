@@ -10,6 +10,9 @@
         <variable
             name="surveysQuantity"
             type="int" />
+        <variable
+            name="questionsViewModel"
+            type="com.example.labo5.viewmodels.QuestionsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

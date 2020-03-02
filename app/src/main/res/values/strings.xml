@@ -9,6 +9,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_about">About App</string>
 
+    <string-array name="types">
+        <item>Text</item>
+        <item>Number</item>
+        <item>Rating</item>
+    </string-array>
 
 
     <string name="appDescription">This survey app will help you to get
@@ -22,4 +27,7 @@
     <string name="results">Results</string>
     <string name="new_survey">New Survey</string>
     <string name="see_results">See Results</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
