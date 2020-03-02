@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 
+
 //Code reference: CodeAndroid
 //https://www.youtube.com/channel/UCMvagHKkUlt3t_E4KxwQXXQ
 
@@ -97,6 +98,18 @@ class SurveyDataBase(context: Context?):SQLiteOpenHelper(context, DATABASE_NAME,
         val db = this.writableDatabase
         db.delete(TABLE_NAME, null, null)
         db.close()
+    }
+    //Deleting answers
+    fun deleteAnswers(){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+
+        cv.put(COL_ID, actual_survey)
+        cv.put(COL_QUESTION, actual_question)
+        cv.put(COL_RATING, "")
+        cv.put(COL_ANSWER, "")
+
+        db.insert(TABLE_NAME,null,cv)
     }
 
 }

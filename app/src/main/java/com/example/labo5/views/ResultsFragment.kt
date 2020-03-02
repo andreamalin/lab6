@@ -79,6 +79,8 @@ class ResultsFragment : Fragment() {
             viewModelQuestions.addedQuestions = ArrayList()
         } else if (item.itemId == R.id.deleteAnswers) { //Delete answers
             viewModelResults.answersList = ArrayList()
+            db.deleteSurvey()
+            db.deleteAnswers()
         }
 
         return super.onOptionsItemSelected(item)
