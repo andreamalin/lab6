@@ -56,6 +56,9 @@ class ResultsFragment : Fragment() {
 
     //Generates new survey
     private fun newSurvey(){
+        //Db
+        val db = SurveyDataBase(context)
+        db.insertQuestion(viewModelResults.quantity)
         view!!.findNavController().navigate(R.id.action_resultsFragment_to_nav_home)
     }
 
@@ -73,13 +76,16 @@ class ResultsFragment : Fragment() {
         //Db
         val db = SurveyDataBase(context)
 
-        if (item.itemId == 0) { //Delete polls
+        if (item.itemId == R.id.deletePolls) { //Delete polls
             viewModelResults.rating.value = 0.0F
             viewModelResults.quantity = 0
+            //Actualizing views
+            binding.surveysQuantity = 0
+            binding.resultsAverage = 0.0F
             db.deleteSurvey()
-        } else if (item.itemId == 1) { //Delete questions
+        } else if (item.itemId == R.id.deleteQuestions) { //Delete questions
             viewModelQuestions.addedQuestions = ArrayList()
-        } else if (item.itemId == 2) { //Delete answers
+        } else if (item.itemId == R.id.deleteAnswers) { //Delete answers
             viewModelResults.answersList = ArrayList()
         }
 

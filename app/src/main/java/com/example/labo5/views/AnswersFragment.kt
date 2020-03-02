@@ -55,6 +55,7 @@ class AnswersFragment : Fragment() {
             viewModelQuestion.nextQuestion()
             val actualSurvey = viewModelResults.quantity
             val actualQuestion = viewModelQuestion.actual_question
+            db.insertQuestion(viewModelQuestion.question)
             var answer: Answer
 
 
@@ -84,6 +85,7 @@ class AnswersFragment : Fragment() {
             answer = Answer(actualSurvey, actualQuestion, lastAnswer) //Constructing answer
             //Insert answer to db
             db.insertAnswerString(answer)
+
         }
         return binding.root
     }

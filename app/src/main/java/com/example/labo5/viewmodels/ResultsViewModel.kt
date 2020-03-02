@@ -1,4 +1,4 @@
-package com.example.labo5.viewmodels;
+package com.example.labo5.viewmodels
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,7 +33,5 @@ class ResultsViewModel: ViewModel(){
     fun getSurveyQuantity(): Int{
         return quantity
     }
-    fun getAllResults(): MutableLiveData<ArrayList<String>>{
-        return answers
-    }
+
 }
